@@ -1,6 +1,12 @@
 import os
 import base64
 from Crypto.Cipher import AES
+from django.db import models
+
+from django.conf import settings
+
+def k() -> bytes:
+    return settings.SECRET_KEY[:32].encode('utf-8')
 
 def e(pt, k) -> bytes:
     c = AES.new(k, AES.MODE_GCM)
@@ -18,3 +24,22 @@ def d(msg, k) -> str:
     c = AES.new(k, AES.MODE_GCM, iv)
     pt = c.decrypt_and_verify(ct, t)
     return pt.decode('UTF-8')
+
+class EncryptedField(models.BinaryField):
+    def get_prep_value(self, value):
+        if value is None:
+            return value
+        else:
+            return e(value, k())
+    
+    def from_db_value(self, value, expression, connection):
+        if value is None:
+            return None
+        else:
+            return d(value, k())
+
+    def to_python(self, value):
+        if value is None or isinstance(value, str):
+            return value
+        else:
+            return d(value, k())
