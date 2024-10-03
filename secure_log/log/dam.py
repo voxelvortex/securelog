@@ -1,17 +1,46 @@
-def anon_username(username=None) -> str:
-    return username
+import logging
+import spacy
 
-def anon_password(password=None) -> str:
-    return password
+nlp = spacy.load('en_core_web_lg')
 
-def anon_name(name=None) -> str:
-    return name
+def ner_remove(s) -> str:
+    doc = nlp(s)
+    clean_s = s
 
-def anon_bio(bio=None) -> str:
-    return bio
+    for ent in doc.ents:
+        #if ent.label_ in ['PERSON', 'GPE', 'ORG', 'DATE', 'CARDINAL', 'PRODUCT']:
+        clean_s = clean_s.replace(ent.text, f' [{ent.label_}] ')
+    return clean_s
 
-def anon_prompt(prompt=None) -> str:
-    return prompt
 
-def anon_response(response=None) -> str:
-    return response
+def anon_username(s=None) -> str:
+    if s is None:
+        return s
+    return s
+
+def anon_password(s=None) -> str:
+    if s is None:
+        return s
+    return '*********'
+
+def anon_name(s=None) -> str:
+    if s is None:
+        return s
+    return s
+
+def anon_bio(s=None) -> str:
+    if s is None:
+        return s
+    return s
+
+def anon_prompt(s=None) -> str:
+    if s is None:
+        return s
+    s = ner_remove(s)
+    return s
+
+def anon_response(s=None) -> str:
+    if s is None:
+        return s
+    s = ner_remove(s)
+    return s

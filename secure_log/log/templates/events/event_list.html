@@ -16,15 +16,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for event in events %}
+            {% for event in object_list %}
                 <tr>
                     <td>{{ event.id }}</td>
                     <td>{{ event.event }}</td>
                     <td>{{ event.time }}</td>
-                    <td>{{ event.username|default_if_none:"-" }}</td>
-                    <td>{{ event.password|default_if_none:"-" }}</td>
-                    <td>{{ event.name|default_if_none:"-" }}</td>
-                    <td>{{ event.bio|default_if_none:"-" }}</td>
+                    <td>{{ event.user_data.user_uuid|default_if_none:"-" }}</td>
+                    <td>{{ event.user_data.password|default_if_none:"-" }}</td>
+                    <td>{{ event.user_data.name|default_if_none:"-" }}</td>
+                    <td>{{ event.user_data.bio|default_if_none:"-" }}</td>
                     <td>{{ event.prompt|default_if_none:"-" }}</td>
                     <td>{{ event.response|default_if_none:"-" }}</td>
                 </tr>

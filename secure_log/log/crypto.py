@@ -9,12 +9,16 @@ def k() -> bytes:
     return settings.SECRET_KEY[:32].encode('utf-8')
 
 def e(pt, k) -> bytes:
+    if pt is None:
+        return None
+
+    print(pt)
     c = AES.new(k, AES.MODE_GCM)
     ct, t = c.encrypt_and_digest(pt.encode('UTF-8'))
     return c.nonce + t + ct
 
 def d(msg, k) -> str:
-    if msg == None:
+    if msg is None:
         return None
 
     ct = msg[32:]
