@@ -18,7 +18,7 @@ def update_username_uuid():
 class EventSerializer(serializers.Serializer):
     event = serializers.CharField()
     time = serializers.DateTimeField()
-    username = serializers.CharField(required=False)
+    username = serializers.CharField(required=True)
     password = serializers.CharField(required=False)
     name = serializers.CharField(required=False)
     bio = serializers.CharField(required=False)
