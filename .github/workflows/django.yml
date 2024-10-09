@@ -27,4 +27,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        ls #python src/manage.py test
+        python secure_log/manage.py test
